@@ -89,16 +89,18 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit = () => {} }) => {
             <h3 className="text-lg font-medium">Annual Income</h3>
 
             <div className="space-y-2">
-              <Label htmlFor="annual-salary">Annual Salary ($)</Label>
+              <Label htmlFor="annual-salary" className="form-label">
+                Annual Salary ($)
+              </Label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/70">
                   $
                 </span>
                 <Input
                   id="annual-salary"
                   type="number"
                   placeholder="85000"
-                  className="pl-7"
+                  className="pl-7 placeholder:text-muted-foreground/60"
                   value={formData.annualSalary || ""}
                   onChange={handleSalaryChange}
                 />

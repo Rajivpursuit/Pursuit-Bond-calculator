@@ -111,3 +111,34 @@
     @apply pt-16;
   }
 }
+
+@layer base {
+  /* Add these styles for better dark mode readability */
+  .dark input::placeholder {
+    @apply text-muted-foreground opacity-70;
+  }
+  
+  .dark label {
+    @apply text-foreground;
+  }
+  
+  /* Improve input field styling in dark mode */
+  .dark input {
+    @apply bg-secondary/50 border-input;
+  }
+  
+  /* Ensure form labels are visible in both modes */
+  .form-label {
+    @apply text-foreground font-medium mb-1;
+  }
+  
+  /* Style placeholders consistently across themes */
+  input::placeholder {
+    @apply text-muted-foreground opacity-60;
+  }
+  
+  /* Add focus styles that work in both themes */
+  input:focus {
+    @apply border-primary ring-1 ring-primary;
+  }
+}
