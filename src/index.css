@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* Updated primary color to match Pursuit logo blue */
+    --primary: 246 100% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Updated secondary color to be a complementary shade */
+    --secondary: 246 100% 95%;
+    --secondary-foreground: 246 100% 60%;
+
+    --muted: 246 20% 90%;
+    --muted-foreground: 246 10% 40%;
+
+    --accent: 246 70% 90%;
+    --accent-foreground: 246 100% 60%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 246 20% 85%;
+    --input: 246 20% 85%;
+    --ring: 246 100% 60%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Updated primary color for dark mode */
+    --primary: 246 100% 70%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 246 30% 20%;
+    --secondary-foreground: 246 100% 70%;
+
+    --muted: 246 30% 20%;
+    --muted-foreground: 246 20% 70%;
+
+    --accent: 246 30% 25%;
+    --accent-foreground: 246 100% 70%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 246 30% 30%;
+    --input: 246 30% 30%;
+    --ring: 246 100% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
