@@ -13,22 +13,41 @@ const PursuitLogo: React.FC<PursuitLogoProps> = ({
     <div className={`flex items-center justify-center ${className}`}>
       <svg
         width={size}
-        height={size * 0.4}
-        viewBox="0 0 100 40"
+        height={size}
+        viewBox="0 0 400 400"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <rect width="400" height="400" fill="#4338FF" />
         <path
-          d="M0 0H19.8V7.92H7.92V16.04H17.82V23.96H7.92V40H0V0Z"
-          fill="#4338FF"
+          d="M195.5 300C158.5 300 128 269.5 128 232.5C128 195.5 158.5 165 195.5 165C232.5 165 263 195.5 263 232.5"
+          stroke="white"
+          strokeWidth="30"
+          strokeLinecap="round"
         />
         <path
-          d="M22.77 0H30.69V16.04C30.69 19.4 32.67 23.96 38.61 23.96C44.55 23.96 46.53 19.4 46.53 16.04V0H54.45V16.04C54.45 24.36 49.5 32.08 38.61 32.08C27.72 32.08 22.77 24.36 22.77 16.04V0Z"
-          fill="#4338FF"
+          d="M195 165V100"
+          stroke="white"
+          strokeWidth="30"
+          strokeLinecap="round"
         />
         <path
-          d="M57.42 0H65.34V13.07C65.34 13.07 71.28 6.73 78.21 6.73C85.14 6.73 90.09 11.88 90.09 19.6V40H82.17V21.58C82.17 17.82 79.2 14.85 75.24 14.85C71.28 14.85 68.31 17.82 68.31 21.58V40H60.39V16.04L57.42 0Z"
-          fill="#4338FF"
+          d="M263 232L263 165"
+          stroke="white"
+          strokeWidth="30"
+          strokeLinecap="round"
+        />
+        <path
+          d="M263 165L263 100"
+          stroke="white"
+          strokeWidth="30"
+          strokeLinecap="round"
+        />
+        <path
+          d="M263 100L223 140"
+          stroke="white"
+          strokeWidth="30"
+          strokeLinecap="round"
         />
       </svg>
     </div>
