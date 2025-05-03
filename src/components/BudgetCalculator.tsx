@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { calculateStateTax } from "../utils/taxCalculator";
 
 const BudgetCalculator = () => {
   const [budgetData, setBudgetData] = useState<BudgetFormData | null>(null);
@@ -16,6 +17,7 @@ const BudgetCalculator = () => {
   const [bondPayment, setBondPayment] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
   const [remainingFunds, setRemainingFunds] = useState<number>(0);
+  const [stateTax, setStateTax] = useState<number>(0);
 
   const handleSubmit = (data: BudgetFormData) => {
     // Calculate monthly income from annual salary
@@ -27,14 +29,18 @@ const BudgetCalculator = () => {
     // Calculate bond payment (15% of monthly income if eligible)
     const payment = eligible ? Math.round(monthly * 0.15 * 100) / 100 : 0;
 
+    // Calculate state tax
+    const annualStateTax = calculateStateTax(data.annualSalary, data.state);
+    const monthlyStateTax = Math.round((annualStateTax / 12) * 100) / 100;
+
     // Sum all expense categories
     const expenses = Object.values(data.monthlyExpenses).reduce(
       (sum, expense) => sum + expense,
-      0,
+      0
     );
 
-    // Calculate remaining funds after expenses and bond payment
-    const remaining = Math.round((monthly - payment - expenses) * 100) / 100;
+    // Calculate remaining funds after expenses, bond payment, and state tax
+    const remaining = Math.round((monthly - payment - expenses - monthlyStateTax) * 100) / 100;
 
     // Update state with calculated values
     setBudgetData(data);
@@ -43,6 +49,7 @@ const BudgetCalculator = () => {
     setBondPayment(payment);
     setTotalExpenses(expenses);
     setRemainingFunds(remaining);
+    setStateTax(monthlyStateTax);
   };
 
   return (
@@ -72,6 +79,8 @@ const BudgetCalculator = () => {
                 remainingFunds={remainingFunds}
                 isEligible={isEligible || false}
                 expensesBreakdown={budgetData.monthlyExpenses}
+                stateTax={stateTax}
+                state={budgetData.state}
               />
             )}
           </div>

@@ -1,17 +1,25 @@
 import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "./ui/card";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Button } from "./ui/button";
+import { Alert, AlertDescription } from "./ui/alert";
 import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "./ui/select";
 
 interface BudgetFormProps {
-  onSubmit: (data: BudgetFormData) => void;
+  onSubmit?: (data: BudgetFormData) => void;
 }
 
 export interface BudgetFormData {
   annualSalary: number;
+  state: 'NY' | 'NJ' | 'CT';
   monthlyExpenses: {
     rent: number;
     utilities: number;
@@ -24,6 +32,7 @@ export interface BudgetFormData {
 const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit = () => {} }) => {
   const [formData, setFormData] = useState<BudgetFormData>({
     annualSalary: 0,
+    state: 'NY',
     monthlyExpenses: {
       rent: 0,
       utilities: 0,
@@ -43,40 +52,46 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit = () => {} }) => {
     setFormData((prev) => ({ ...prev, annualSalary: value }));
   };
 
-  const handleExpenseChange =
-    (key: keyof BudgetFormData["monthlyExpenses"]) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = parseFloat(e.target.value) || 0;
-      setFormData((prev) => ({
-        ...prev,
-        monthlyExpenses: {
-          ...prev.monthlyExpenses,
-          [key]: value,
-        },
-      }));
-    };
+  const handleStateChange = (value: 'NY' | 'NJ' | 'CT') => {
+    setFormData((prev) => ({ ...prev, state: value }));
+  };
 
-  const validateForm = (): boolean => {
-    const newErrors: { salary?: string; expenses?: string } = {};
-
-    if (formData.annualSalary <= 0) {
-      newErrors.salary = "Please enter a valid annual salary";
-    }
-
-    const hasNegativeExpense = Object.values(formData.monthlyExpenses).some(
-      (value) => value < 0,
-    );
-    if (hasNegativeExpense) {
-      newErrors.expenses = "Expenses cannot be negative";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const handleExpenseChange = (field: keyof BudgetFormData["monthlyExpenses"]) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = parseFloat(e.target.value) || 0;
+    setFormData((prev) => ({
+      ...prev,
+      monthlyExpenses: {
+        ...prev.monthlyExpenses,
+        [field]: value,
+      },
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
+    
+    // Validate form data
+    const newErrors: { salary?: string; expenses?: string } = {};
+    
+    if (formData.annualSalary <= 0) {
+      newErrors.salary = "Please enter a valid annual salary";
+    }
+    
+    const totalExpenses = Object.values(formData.monthlyExpenses).reduce(
+      (sum, expense) => sum + expense,
+      0
+    );
+    
+    if (totalExpenses <= 0) {
+      newErrors.expenses = "Please enter at least one expense";
+    }
+    
+    setErrors(newErrors);
+    
+    // If no errors, submit the form
+    if (Object.keys(newErrors).length === 0) {
       onSubmit(formData);
     }
   };
@@ -86,8 +101,8 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit = () => {} }) => {
       <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Annual Income</h3>
-
+            <h3 className="text-lg font-medium">Income Information</h3>
+            
             <div className="space-y-2">
               <Label htmlFor="annual-salary" className="form-label">
                 Annual Salary ($)
@@ -111,6 +126,28 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit = () => {} }) => {
                   <AlertDescription>{errors.salary}</AlertDescription>
                 </Alert>
               )}
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="state" className="form-label">
+                State of Residence (Tri-State Area)
+              </Label>
+              <Select 
+                value={formData.state} 
+                onValueChange={(value: 'NY' | 'NJ' | 'CT') => handleStateChange(value)}
+              >
+                <SelectTrigger id="state" className="w-full">
+                  <SelectValue placeholder="Select your state" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="NY">New York</SelectItem>
+                  <SelectItem value="NJ">New Jersey</SelectItem>
+                  <SelectItem value="CT">Connecticut</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-sm text-muted-foreground">
+                This selection will help us tailor the budget calculations based on your location.
+              </p>
             </div>
           </div>
 

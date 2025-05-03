@@ -19,18 +19,20 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface BudgetResultsProps {
-  monthlySalary?: number;
-  bondPayment?: number;
-  totalExpenses?: number;
-  remainingFunds?: number;
-  isEligible?: boolean;
-  expensesBreakdown?: {
+  monthlySalary: number;
+  bondPayment: number;
+  totalExpenses: number;
+  remainingFunds: number;
+  isEligible: boolean;
+  expensesBreakdown: {
     rent: number;
     utilities: number;
     food: number;
     transportation: number;
     other: number;
   };
+  stateTax: number;
+  state: 'NY' | 'NJ' | 'CT';
 }
 
 const BudgetResults: React.FC<BudgetResultsProps> = ({
@@ -46,6 +48,8 @@ const BudgetResults: React.FC<BudgetResultsProps> = ({
     transportation: 400,
     other: 300,
   },
+  stateTax = 0,
+  state = 'NY',
 }) => {
   const [chartType, setChartType] = useState<ChartType>("pie");
   // Format currency values
@@ -64,6 +68,8 @@ const BudgetResults: React.FC<BudgetResultsProps> = ({
     monthlySalary > 0 ? Math.round((totalExpenses / monthlySalary) * 100) : 0;
   const remainingPercentage =
     monthlySalary > 0 ? Math.round((remainingFunds / monthlySalary) * 100) : 0;
+  const stateTaxPercentage = 
+    monthlySalary > 0 ? Math.round((stateTax / monthlySalary) * 100) : 0;
 
   // Toggle chart type
   const toggleChartType = () => {
@@ -171,6 +177,30 @@ const BudgetResults: React.FC<BudgetResultsProps> = ({
                 <span className="font-bold">{formatCurrency(bondPayment)}</span>
               </div>
             )}
+
+            <div className="flex justify-between items-center text-amber-600">
+              <div className="flex items-center">
+                <span className="font-medium">
+                  {state} State Tax ({stateTaxPercentage}%):
+                </span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span>
+                        <HelpCircleIcon className="h-4 w-4 ml-1 text-amber-500 inline cursor-help" />
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="w-[200px] text-sm">
+                        Estimated monthly state income tax based on your annual salary 
+                        and {state === 'NY' ? 'New York' : state === 'NJ' ? 'New Jersey' : 'Connecticut'} tax brackets.
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+              <span className="font-bold">{formatCurrency(stateTax)}</span>
+            </div>
 
             <div className="flex justify-between items-center text-red-600">
               <div className="flex items-center">
