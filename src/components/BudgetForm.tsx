@@ -130,7 +130,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit = () => {} }) => {
             
             <div className="space-y-2">
               <Label htmlFor="state" className="form-label">
-                State of Residence (Tri-State Area)
+                State of Residence
               </Label>
               <Select 
                 value={formData.state} 
@@ -146,7 +146,11 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit = () => {} }) => {
                 </SelectContent>
               </Select>
               <p className="text-sm text-muted-foreground">
-                This selection will help us tailor the budget calculations based on your location.
+                To provide a more accurate budget tailored to your location, please select your state of residence:
+                <br />
+                <span className="block mt-1 ml-2">• <strong>New York:</strong> Income tax: 4%–10.9% (+ NYC residents: 3.078%–3.876% city tax), Sales tax: up to 8.875%</span>
+                <span className="block mt-1 ml-2">• <strong>New Jersey:</strong> Income tax: 1.4%–10.75%, Sales tax: 6.625%</span>
+                <span className="block mt-1 ml-2">• <strong>Connecticut:</strong> Income tax: 3%–6.99%, Sales tax: 6.35%</span>
               </p>
             </div>
           </div>
