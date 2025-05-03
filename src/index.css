@@ -75,5 +75,39 @@
   }
   body {
     @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Add transitions for theme switching */
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+  }
+  
+  /* Section spacing */
+  section {
+    @apply p-6 my-4;
+  }
+  
+  /* Input field hover effects */
+  input:hover {
+    @apply border-primary/70;
+  }
+  
+  /* Fixed header styling */
+  .app-header {
+    @apply fixed top-0 left-0 right-0 bg-background/95 backdrop-blur-sm 
+           py-3 px-4 border-b z-50 flex items-center justify-between;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .app-header h1 {
+    @apply text-primary font-bold text-xl;
+  }
+  
+  /* Add padding to main content to account for fixed header */
+  .header-offset {
+    @apply pt-16;
   }
 }

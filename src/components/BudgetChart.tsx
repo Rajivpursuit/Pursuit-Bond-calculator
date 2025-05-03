@@ -11,6 +11,7 @@ import {
   Title,
 } from "chart.js";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTheme } from "@/lib/theme-provider";
 
 // Register the required Chart.js components
 ChartJS.register(
@@ -42,6 +43,20 @@ const BudgetChart = ({
   chartType = "pie",
   expensesBreakdown = {},
 }: BudgetChartProps) => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  
+  // Define colors that work well in both light and dark modes
+  const bondColor = "#4338FF"; // Pursuit blue
+  const bondBorderColor = "#3229CC";
+  const expensesColor = "#ef4444"; // Red
+  const expensesBorderColor = "#dc2626";
+  const remainingColor = "#10b981"; // Green
+  const remainingBorderColor = "#059669";
+  
+  // Text color for legends based on theme
+  const textColor = isDark ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)";
+  
   // Prepare data for the pie chart
   const pieChartData = {
     labels: isEligible
@@ -53,11 +68,11 @@ const BudgetChart = ({
           ? [bondPayment, totalExpenses, remainingFunds]
           : [totalExpenses, remainingFunds],
         backgroundColor: isEligible
-          ? ["#4338FF", "#ef4444", "#10b981"]
-          : ["#ef4444", "#10b981"],
+          ? [bondColor, expensesColor, remainingColor]
+          : [expensesColor, remainingColor],
         borderColor: isEligible
-          ? ["#3229CC", "#dc2626", "#059669"]
-          : ["#dc2626", "#059669"],
+          ? [bondBorderColor, expensesBorderColor, remainingBorderColor]
+          : [expensesBorderColor, remainingBorderColor],
         borderWidth: 1,
       },
     ],
@@ -102,6 +117,7 @@ const BudgetChart = ({
           font: {
             size: 14,
           },
+          color: textColor,
         },
       },
       tooltip: {
@@ -139,13 +155,25 @@ const BudgetChart = ({
           callback: function (value: any) {
             return "$" + value;
           },
+          color: textColor,
+        },
+        grid: {
+          color: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+        },
+      },
+      x: {
+        ticks: {
+          color: textColor,
+        },
+        grid: {
+          color: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
         },
       },
     },
   };
 
   return (
-    <Card className="w-full h-full bg-white">
+    <Card className="w-full h-full">
       <CardContent className="p-6">
         <div className="h-[350px] flex items-center justify-center">
           {bondPayment > 0 || totalExpenses > 0 || remainingFunds > 0 ? (
@@ -155,7 +183,7 @@ const BudgetChart = ({
               <Bar data={barChartData} options={barChartOptions} />
             )
           ) : (
-            <div className="text-center text-gray-500">
+            <div className="text-center text-muted-foreground">
               <p>Enter your income and expenses to see your budget breakdown</p>
             </div>
           )}
