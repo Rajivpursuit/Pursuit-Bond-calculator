@@ -20,33 +20,27 @@ const PursuitLogo: React.FC<PursuitLogoProps> = ({
       >
         <rect width="400" height="400" fill="#4338FF" />
         <path
-          d="M195.5 300C158.5 300 128 269.5 128 232.5C128 195.5 158.5 165 195.5 165C232.5 165 263 195.5 263 232.5"
+          d="M200 320C140 320 100 280 100 220C100 160 140 120 200 120C260 120 300 160 300 220"
           stroke="white"
-          strokeWidth="30"
+          strokeWidth="40"
           strokeLinecap="round"
         />
         <path
-          d="M195 165V100"
+          d="M200 120V80"
           stroke="white"
-          strokeWidth="30"
+          strokeWidth="40"
           strokeLinecap="round"
         />
         <path
-          d="M263 232L263 165"
+          d="M300 220V80"
           stroke="white"
-          strokeWidth="30"
+          strokeWidth="40"
           strokeLinecap="round"
         />
         <path
-          d="M263 165L263 100"
+          d="M300 80L250 130"
           stroke="white"
-          strokeWidth="30"
-          strokeLinecap="round"
-        />
-        <path
-          d="M263 100L223 140"
-          stroke="white"
-          strokeWidth="30"
+          strokeWidth="40"
           strokeLinecap="round"
         />
       </svg>
